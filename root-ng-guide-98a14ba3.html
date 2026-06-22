@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NG导航 · 发现优质网络起点</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: #f0f7fb;
+      color: #1f2e3a;
+      line-height: 1.7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 蓝绿色点缀基调 */
+    .accent-bg {
+      background: linear-gradient(145deg, #e0f0ec 0%, #c8e6df 100%);
+    }
+
+    .wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      flex: 1;
+    }
+
+    /* Hero 横幅 — 杂志风 */
+    .hero {
+      background: #ffffffec;
+      backdrop-filter: blur(2px);
+      padding: 3rem 2rem 2.5rem;
+      border-radius: 32px;
+      box-shadow: 0 12px 28px -8px rgba(30, 75, 80, 0.12);
+      margin-bottom: 3rem;
+      border: 1px solid #bcdad3;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle at 30% 40%, #6bb8aa30, #3f9a8c10);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero h1 {
+      font-size: 2.6rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #1b4b44;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+
+    .hero .sub {
+      font-size: 1.15rem;
+      color: #3b6a62;
+      max-width: 680px;
+      margin: 0.5rem 0 0;
+      font-weight: 400;
+      border-left: 4px solid #479e8e;
+      padding-left: 1rem;
+      background: #eaf4f1;
+      border-radius: 0 8px 8px 0;
+      padding: 0.75rem 1rem;
+    }
+
+    /* 网格卡片区 */
+    .grid-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.8rem;
+      margin: 2.8rem 0 3rem;
+    }
+
+    @media (min-width: 680px) {
+      .grid-cards {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .card {
+      background: white;
+      border-radius: 28px;
+      padding: 2rem 1.8rem;
+      box-shadow: 0 6px 16px rgba(42, 95, 88, 0.06);
+      transition: transform 0.2s ease, box-shadow 0.2s;
+      border: 1px solid #d4e7e2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px -8px rgba(34, 88, 82, 0.14);
+      border-color: #9ecfc2;
+    }
+
+    .card h2 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: #1b5b52;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card h2::before {
+      content: "▣";
+      font-size: 1.3rem;
+      color: #47a08e;
+    }
+
+    .card p {
+      color: #2c4040;
+      margin-bottom: 0.7rem;
+      flex: 1;
+    }
+
+    .card .meta-tag {
+      display: inline-block;
+      font-size: 0.8rem;
+      background: #d5ece6;
+      color: #1f594e;
+      padding: 0.2rem 0.8rem;
+      border-radius: 50px;
+      margin-top: 0.6rem;
+      align-self: flex-start;
+    }
+
+    /* 三段式背景说明 & 自然介绍区域 */
+    .essay-section {
+      background: #ffffffd9;
+      backdrop-filter: blur(4px);
+      border-radius: 28px;
+      padding: 2.2rem 2rem;
+      margin: 2.8rem 0;
+      border: 1px solid #c8dfd8;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    }
+
+    .essay-section h3 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: #1a5a50;
+      margin-bottom: 1.2rem;
+      border-bottom: 2px solid #a7cec3;
+      padding-bottom: 0.4rem;
+      display: inline-block;
+    }
+
+    .essay-section p {
+      margin-bottom: 1.2rem;
+      color: #1f3a36;
+    }
+
+    .essay-section p:last-child {
+      margin-bottom: 0;
+    }
+
+    .faq-mini {
+      background: #e9f3f0;
+      border-radius: 20px;
+      padding: 1.6rem 1.8rem;
+      margin: 2rem 0 2.4rem;
+      border-left: 6px solid #479e8e;
+    }
+
+    .faq-mini dt {
+      font-weight: 600;
+      color: #154a41;
+      margin-bottom: 0.3rem;
+      font-size: 1.15rem;
+    }
+
+    .faq-mini dd {
+      margin-left: 0;
+      margin-bottom: 1rem;
+      color: #2d514a;
+    }
+
+    .faq-mini dd:last-child {
+      margin-bottom: 0;
+    }
+
+    /* 页尾访问提示 */
+    .site-footer {
+      margin-top: 4rem;
+      padding: 2rem 1.5rem 1.2rem;
+      background: #ffffffd9;
+      backdrop-filter: blur(4px);
+      border-radius: 28px 28px 24px 24px;
+      text-align: center;
+      border: 1px solid #bcd9d0;
+      font-size: 1rem;
+    }
+
+    .site-footer .inner {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .site-footer .hint {
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: #1e4941;
+      margin-bottom: 0.5rem;
+    }
+
+    .site-footer a {
+      color: #296b5f;
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 2px solid #6ab1a1;
+      padding-bottom: 2px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .site-footer a:hover {
+      color: #12483e;
+      border-bottom-color: #2f8876;
+    }
+
+    .site-footer .footnote {
+      color: #4b6b64;
+      font-size: 0.9rem;
+      margin-top: 0.8rem;
+      opacity: 0.8;
+    }
+
+    /* 移动端微调 */
+    @media (max-width: 480px) {
+      .wrapper {
+        padding: 1rem 1rem;
+      }
+      .hero {
+        padding: 2rem 1.2rem;
+      }
+      .hero h1 {
+        font-size: 1.9rem;
+      }
+      .card {
+        padding: 1.5rem;
+      }
+      .essay-section {
+        padding: 1.5rem 1.2rem;
+      }
+      .site-footer {
+        padding: 1.5rem 1rem;
+      }
+    }
+
+    /* 装饰小分隔 */
+    .divider-wave {
+      width: 100%;
+      height: 6px;
+      background: repeating-linear-gradient(90deg, #7fbdb0 0px, #7fbdb0 10px, transparent 10px, transparent 20px);
+      margin: 1.5rem 0 0.5rem;
+      opacity: 0.3;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- 杂志式首页横幅 -->
+    <header class="hero">
+      <h1>NG导航 · 从标签到远方</h1>
+      <div class="sub">一个帮你快速定位优质网络资源的起点 —— 分类简洁，不迷路。</div>
+    </header>
+
+    <!-- 网格卡片：传达网站用途与特点 -->
+    <div class="grid-cards">
+      <div class="card">
+        <h2>一眼识别</h2>
+        <p>当你打开网站，最先看到的不是繁杂列表，而是清晰的功能分区。无论你是找工具、查资料还是探索社区，都能在三秒内判断该从哪里起步。</p>
+        <span class="meta-tag">分类 · 标签即路径</span>
+      </div>
+      <div class="card">
+        <h2>轻量·常新</h2>
+        <p>没有多余装饰，没有弹窗干扰。站点保持精简的同时，后台持续筛选和更新链接，让常用资源保持有效，减少你试错的次数。</p>
+        <span class="meta-tag">维护 · 去芜存菁</span>
+      </div>
+    </div>
+
+    <!-- 背景说明 + 三段自然介绍 (杂志专题式行文) -->
+    <div class="essay-section">
+      <h3>它为什么适合你</h3>
+      <p>互联网内容像潮水一样涨落，每天都有新网站诞生，也有旧链接失效。很多人收藏夹里堆积了上百个书签，但真正用的时候依然找不到想要的。<strong>NG导航</strong> 尝试解决这个习惯断层：它不追求收录所有站点，而是挑选那些经得起重复使用的资源，用简单的标签归类。</p>
+      <p>比如你想找一个在线写作工具，或者想了解某个领域的公开数据，在导航里按照主题索引往往比搜索引擎的广告页面更快。这不是万能方案，但对于经常需要查阅特定类型网站的人来说，它能节省反复搜索的精力。</p>
+      <p>另外，这个站点的设计偏向朴素和直接，没有复杂的注册流程，也不需要你留下任何信息。你只需要打开页面，找到感兴趣的板块，然后点过去就好。</p>
+    </div>
+
+    <!-- FAQ 摘要风格 (但仍是自然说明) -->
+    <dl class="faq-mini">
+      <dt>这里和普通书签有什么不同？</dt>
+      <dd>普通书签容易越积越乱，且缺少上下文提示。<strong>NG导航</strong> 在分类名称和简短介绍上花了一些心思，让你即使隔了很久再回来，也能马上回忆每个链接的用途。</dd>
+      <dt>链接会定期检查吗？</dt>
+      <dd>是的，维护团队会周期性地检测链接可用性，并替换或移除失效的资源。不过网络状况多变，如果你发现某个链接打不开，也欢迎通过站点上的反馈渠道告知。</dd>
+    </dl>
+
+    <!-- 第二个卡片组 (网格) 展现场景 -->
+    <div class="grid-cards">
+      <div class="card">
+        <h2>场景·学习</h2>
+        <p>查找公开课、文档库、编程练习平台，导航里已经整理了常见的学习类入口。省去你在搜索引擎翻好几页的时间。</p>
+        <span class="meta-tag">学生 · 自学者</span>
+      </div>
+      <div class="card">
+        <h2>场景·效率</h2>
+        <p>在线白板、文件转换、配色工具、临时邮箱…… 这些轻量级工具在导航里往往占据一个小分类，随取随用，用完即走。</p>
+        <span class="meta-tag">办公 · 创意</span>
+      </div>
+    </div>
+
+    <!-- 页尾访问提示 — 自然嵌入链接 -->
+    <footer class="site-footer">
+      <div class="inner">
+        <div class="hint">如果你正在寻找一个清爽的网络起点，不妨试试 <a href="https://root-ng.com">NG导航</a>。</div>
+        <p class="footnote">不需要注册，不需要收藏夹整理，打开即用。</p>
+        <div class="divider-wave"></div>
+        <p style="margin-top: 0.6rem; color: #39685f; font-size: 0.9rem;">以简洁的方式，重新连接你需要的网络角落。</p>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
